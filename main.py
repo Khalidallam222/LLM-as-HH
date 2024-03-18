@@ -4,7 +4,13 @@ import os
 from pathlib import Path
 import subprocess
 from utils.utils import init_client
+from dotenv import find_dotenv, load_dotenv
 
+dotenv_path = find_dotenv()
+load_dotenv(dotenv_path)
+
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+HYDRA_FULL_ERROR = os.getenv('HYDRA_FULL_ERROR')
 
 ROOT_DIR = os.getcwd()
 logging.basicConfig(level=logging.INFO)
@@ -46,6 +52,8 @@ def main(cfg):
     with open(test_script_stdout, 'r') as file:
         for line in file.readlines():
             logging.info(line.strip())
+    
+     
 
 if __name__ == "__main__":
     main()
