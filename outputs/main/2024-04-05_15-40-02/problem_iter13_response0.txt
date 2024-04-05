@@ -1,0 +1,36 @@
+```python
+import numpy as np
+
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes using a look-ahead heuristic."""
+    # Look-ahead heuristic: prioritize nodes that bring us closer to the destination
+    # and have a shorter distance to the remaining unvisited nodes on average.
+    
+    # Coefficients for the heuristic function
+    c1, c2 = 0.6, 0.4
+    
+    scores = {}
+    for node in unvisited_nodes:
+        # Calculate the direct distance from the current node to the potential next node
+        direct_distance = distance_matrix[current_node][node]
+        
+        # Calculate the sum of distances from the potential next node to all unvisited nodes
+        total_distance_to_unvisited = sum(distance_matrix[node][i] for i in unvisited_nodes if i != node)
+        
+        # Calculate the average distance from the potential next node to the unvisited nodes
+        average_distance_to_unvisited = total_distance_to_unvisited / (len(unvisited_nodes) - 1)
+        
+        # Calculate the score for the potential next node
+        score = c1 * direct_distance + c2 * average_distance_to_unvisited
+        
+        # We want to minimize the score, so we subtract the distance to the destination
+        # to prioritize nodes that bring us closer to the end
+        score -= distance_matrix[destination_node][node]
+        
+        scores[node] = score
+    
+    # Select the node with the minimum score
+    next_node = min(scores, key=scores.get)
+    return next_node
+```
+This function uses a look-ahead heuristic by considering both the direct distance from the current node to the potential next node and the average distance from the potential next node to all unvisited nodes. It also prioritizes nodes that bring us closer to the final destination node by subtracting the distance from the potential next node to the destination.

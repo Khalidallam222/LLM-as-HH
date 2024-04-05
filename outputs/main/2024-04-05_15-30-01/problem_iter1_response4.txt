@@ -1,0 +1,27 @@
+```python
+import numpy as np
+
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes with lookahead mechanism."""
+    
+    # Initialize a dictionary to store scores for each node
+    scores = {}
+    
+    # Look-ahead: Consider the distance from the next node to the remaining nodes
+    for node in unvisited_nodes:
+        # Calculate the sum of distances from the current node to the next node and from the next node to all other unvisited nodes
+        lookahead_score = sum(distance_matrix[node][n] for n in unvisited_nodes if n != node)
+        
+        # Calculate the score for the current node, considering the direct distance, lookahead, and the distance to the final destination
+        score = distance_matrix[current_node][node] + lookahead_score - distance_matrix[destination_node][node]
+        
+        # Assign the score to the node in the scores dictionary
+        scores[node] = score
+    
+    # Select the node with the lowest score (best candidate)
+    next_node = min(scores, key=scores.get)
+    
+    return next_node
+```
+
+This improved version, `select_next_node_v2`, incorporates a lookahead mechanism by considering the sum of distances from the potential next node to all the other unvisited nodes. This heuristic aims to reduce the overall path length by trying to select nodes that are more central or closer to the remaining nodes.

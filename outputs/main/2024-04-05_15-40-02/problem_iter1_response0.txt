@@ -1,0 +1,25 @@
+```python
+import numpy as np
+
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes using a look-ahead mechanism."""
+    scores = {}
+    for node in unvisited_nodes:
+        # Calculate the direct distance from the current node to the candidate node
+        direct_distance = distance_matrix[current_node][node]
+        # Look-ahead: estimate the distance from the candidate node to the destination node
+        # through all other unvisited nodes
+        look-ahead_distance = 0
+        for other_node in unvisited_nodes:
+            if other_node != node:
+                look-ahead_distance += distance_matrix[node][other_node]
+        # Normalize the look-ahead distance by the number of unvisited nodes (excluding the current node)
+        look-ahead_distance /= (len(unvisited_nodes) - 1)
+        # Combine the direct distance and the look-ahead estimate
+        score = direct_distance + look-ahead_distance
+        scores[node] = score
+    # Select the node with the minimum estimated total distance
+    next_node = min(scores, key=scores.get)
+    return next_node
+```
+This `select_next_node_v2` function uses a look-ahead mechanism to estimate the total distance that includes the direct distance to the next node and an average of distances from that node to all other unvisited nodes. This heuristic aims to reduce the overall travel distance by considering potential future paths.

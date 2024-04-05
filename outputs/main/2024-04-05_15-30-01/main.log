@@ -1,0 +1,160 @@
+[2024-04-05 15:30:01,521][root][INFO] - Workspace: /home/khalid/MyWork/AI-research-project/ReEvo/LLM-as-HH/outputs/main/2024-04-05_15-30-01
+[2024-04-05 15:30:01,521][root][INFO] - Project Root: /home/khalid/MyWork/AI-research-project/ReEvo/LLM-as-HH
+[2024-04-05 15:30:01,521][root][INFO] - Using LLM: GLM-4
+[2024-04-05 15:30:01,521][root][INFO] - Using Algorithm: reevo
+[2024-04-05 15:30:01,918][root][INFO] - Problem: tsp_constructive
+[2024-04-05 15:30:01,918][root][INFO] - Problem description: Solving Traveling Salesman Problem (TSP) with constructive heuristics. TSP requires finding the shortest path that visits all given nodes and returns to the starting node.
+[2024-04-05 15:30:01,918][root][INFO] - Function name: select_next_node
+[2024-04-05 15:30:01,919][root][INFO] - Evaluating seed function...
+[2024-04-05 15:30:01,919][root][INFO] - Seed function code: 
+import numpy as np
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes."""
+    threshold = 0.7
+    c1, c2, c3, c4 = 0.4, 0.3, 0.2, 0.1
+    scores = {}
+    for node in unvisited_nodes:
+        all_distances = [distance_matrix[node][i] for i in unvisited_nodes if i != node]
+        average_distance_to_unvisited = np.mean(all_distances)
+        std_dev_distance_to_unvisited = np.std(all_distances)
+        score = c1 * distance_matrix[current_node][node] - c2 * average_distance_to_unvisited + c3 * std_dev_distance_to_unvisited - c4 * distance_matrix[destination_node][node]
+        scores[node] = score
+    next_node = min(scores, key=scores.get)
+    return next_node
+[2024-04-05 15:30:01,919][root][INFO] - Iteration 0: Running Code 0
+[2024-04-05 15:30:02,168][root][INFO] - Iteration 0: Code Run 0 successful!
+[2024-04-05 15:30:05,037][root][INFO] - Iteration 0, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:30:05,037][root][INFO] - Iteration 0: Elitist: 6.273092009780198
+[2024-04-05 15:30:05,037][root][INFO] - Iteration 0 finished...
+[2024-04-05 15:30:05,037][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:30:05,037][root][INFO] - Function Evals: 1
+[2024-04-05 15:30:05,037][root][INFO] - Initial Population Prompt: 
+System Prompt: 
+You are an expert in the domain of optimization heuristics. Your task is to design heuristics that can effectively solve optimization problems.
+Your response outputs Python code and nothing else. Format your code as a Python code string: "```python ... ```".
+
+User Prompt: 
+Write a select_next_node function for Solving Traveling Salesman Problem (TSP) with constructive heuristics. TSP requires finding the shortest path that visits all given nodes and returns to the starting node.
+The select_next_node function takes as input the current node, the destination_node, a set of unvisited nodes, and a distance matrix, and returns the next node to visit.
+
+
+def select_next_node_v1(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes."""
+    threshold = 0.7
+    c1, c2, c3, c4 = 0.4, 0.3, 0.2, 0.1
+    scores = {}
+    for node in unvisited_nodes:
+        all_distances = [distance_matrix[node][i] for i in unvisited_nodes if i != node]
+        average_distance_to_unvisited = np.mean(all_distances)
+        std_dev_distance_to_unvisited = np.std(all_distances)
+        score = c1 * distance_matrix[current_node][node] - c2 * average_distance_to_unvisited + c3 * std_dev_distance_to_unvisited - c4 * distance_matrix[destination_node][node]
+        scores[node] = score
+    next_node = min(scores, key=scores.get)
+    return next_node
+
+
+Improve `select_next_node_v1` to give `select_next_node_v2`. Output code only and enclose your code with Python code block: ```python ... ```.
+
+- Try look-ahead mechanisms.
+[2024-04-05 15:30:26,899][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:30:42,908][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:30:58,292][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:31:20,839][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:31:47,072][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:32:03,065][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:32:16,149][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:32:30,871][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:32:45,589][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:33:03,939][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:33:03,949][root][INFO] - Iteration 1: Running Code 0
+[2024-04-05 15:33:04,193][root][INFO] - Iteration 1: Code Run 0 successful!
+[2024-04-05 15:33:04,193][root][INFO] - Iteration 1: Running Code 1
+[2024-04-05 15:33:04,513][root][INFO] - Iteration 1: Code Run 1 successful!
+[2024-04-05 15:33:04,513][root][INFO] - Iteration 1: Running Code 2
+[2024-04-05 15:33:04,809][root][INFO] - Iteration 1: Code Run 2 successful!
+[2024-04-05 15:33:04,809][root][INFO] - Iteration 1: Running Code 3
+[2024-04-05 15:33:05,058][root][INFO] - Iteration 1: Code Run 3 successful!
+[2024-04-05 15:33:05,058][root][INFO] - Iteration 1: Running Code 4
+[2024-04-05 15:33:05,388][root][INFO] - Iteration 1: Code Run 4 successful!
+[2024-04-05 15:33:05,388][root][INFO] - Iteration 1: Running Code 5
+[2024-04-05 15:33:05,653][root][INFO] - Iteration 1: Code Run 5 successful!
+[2024-04-05 15:33:05,654][root][INFO] - Iteration 1: Running Code 6
+[2024-04-05 15:33:05,842][root][INFO] - Iteration 1: Code Run 6 successful!
+[2024-04-05 15:33:05,842][root][INFO] - Iteration 1: Running Code 7
+[2024-04-05 15:33:06,089][root][INFO] - Iteration 1: Code Run 7 successful!
+[2024-04-05 15:33:06,089][root][INFO] - Iteration 1: Running Code 8
+[2024-04-05 15:33:06,383][root][INFO] - Iteration 1: Code Run 8 successful!
+[2024-04-05 15:33:06,384][root][INFO] - Iteration 1: Running Code 9
+[2024-04-05 15:33:06,735][root][INFO] - Iteration 1: Code Run 9 successful!
+[2024-04-05 15:33:09,954][root][INFO] - Iteration 1, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:33:09,954][root][INFO] - Iteration 1, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:33:09,954][root][INFO] - Iteration 1, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:33:09,954][root][INFO] - Iteration 1, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:33:09,954][root][INFO] - Iteration 1, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:33:09,954][root][INFO] - Iteration 1, response_id 5: Objective value: 6.273092009780198
+[2024-04-05 15:33:09,955][root][INFO] - Iteration 1, response_id 6: Objective value: 6.273092009780198
+[2024-04-05 15:33:10,769][root][INFO] - Iteration 1, response_id 7: Objective value: 6.273092009780198
+[2024-04-05 15:33:10,770][root][INFO] - Iteration 1, response_id 8: Objective value: 6.273092009780198
+[2024-04-05 15:33:11,284][root][INFO] - Iteration 1, response_id 9: Objective value: 6.273092009780198
+[2024-04-05 15:33:11,284][root][INFO] - Iteration 1 finished...
+[2024-04-05 15:33:11,284][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:33:11,284][root][INFO] - Function Evals: 11
+[2024-04-05 15:33:11,309][root][INFO] - Mutation Prompt: 
+System Prompt: 
+You are an expert in the domain of optimization heuristics. Your task is to design heuristics that can effectively solve optimization problems.
+Your response outputs Python code and nothing else. Format your code as a Python code string: "```python ... ```".
+
+User Prompt: 
+Write a select_next_node function for Solving Traveling Salesman Problem (TSP) with constructive heuristics. TSP requires finding the shortest path that visits all given nodes and returns to the starting node.
+The select_next_node function takes as input the current node, the destination_node, a set of unvisited nodes, and a distance matrix, and returns the next node to visit.
+
+
+
+[Prior reflection]
+- Try look-ahead mechanisms.- Try look-ahead mechanisms.
+
+[Code]
+def select_next_node_v1(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes."""
+    threshold = 0.7
+    c1, c2, c3, c4 = 0.4, 0.3, 0.2, 0.1
+    scores = {}
+    for node in unvisited_nodes:
+        all_distances = [distance_matrix[node][i] for i in unvisited_nodes if i != node]
+        average_distance_to_unvisited = np.mean(all_distances)
+        std_dev_distance_to_unvisited = np.std(all_distances)
+        score = c1 * distance_matrix[current_node][node] - c2 * average_distance_to_unvisited + c3 * std_dev_distance_to_unvisited - c4 * distance_matrix[destination_node][node]
+        scores[node] = score
+    next_node = min(scores, key=scores.get)
+    return next_node
+
+[Improved code]
+Please write a mutated function `select_next_node_v2`, according to the reflection. Output code only and enclose your code with Python code block: ```python ... ```.
+[2024-04-05 15:33:20,770][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:33:20,770][root][INFO] - Attempt 1 failed with error: Request Timeout
+[2024-04-05 15:33:30,079][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:33:30,079][root][INFO] - Attempt 2 failed with error: Request Timeout
+[2024-04-05 15:33:41,559][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:33:41,560][root][INFO] - Attempt 3 failed with error: Request Timeout
+[2024-04-05 15:33:50,855][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:33:50,856][root][INFO] - Attempt 4 failed with error: Request Timeout
+[2024-04-05 15:34:00,163][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:34:00,164][root][INFO] - Attempt 5 failed with error: Request Timeout
+[2024-04-05 15:34:09,539][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:34:09,539][root][INFO] - Attempt 6 failed with error: Request Timeout
+[2024-04-05 15:34:18,847][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:34:18,848][root][INFO] - Attempt 7 failed with error: Request Timeout
+[2024-04-05 15:34:28,155][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:34:28,156][root][INFO] - Attempt 8 failed with error: Request Timeout
+[2024-04-05 15:34:37,459][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:34:37,460][root][INFO] - Attempt 9 failed with error: Request Timeout
+[2024-04-05 15:34:46,839][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:34:46,839][root][INFO] - Attempt 10 failed with error: Request Timeout
+[2024-04-05 15:34:56,143][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:34:56,143][root][INFO] - Attempt 11 failed with error: Request Timeout
+[2024-04-05 15:35:06,439][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:35:06,440][root][INFO] - Attempt 12 failed with error: Request Timeout
+[2024-04-05 15:35:16,111][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:35:16,111][root][INFO] - Attempt 13 failed with error: Request Timeout
+[2024-04-05 15:35:38,218][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:35:55,855][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "

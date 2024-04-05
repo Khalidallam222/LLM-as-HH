@@ -1,0 +1,34 @@
+```python
+import numpy as np
+
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes using a look-ahead mechanism."""
+    # Define weights for the scoring heuristic
+    c1, c2, c3 = 0.5, 0.3, 0.2
+    
+    # Initialize the best node and score
+    best_node = None
+    best_score = np.inf
+    
+    # Iterate over all unvisited nodes to find the best next node
+    for node in unvisited_nodes:
+        # Calculate the direct distance from the current node to the candidate node
+        direct_distance = distance_matrix[current_node][node]
+        
+        # Look-ahead: estimate the distance from the candidate node to the final destination
+        look_ahead_distance = 0
+        for unvisited in unvisited_nodes - {node}:
+            look_ahead_distance += distance_matrix[node][unvisited]
+        look_ahead_distance /= len(unvisited_nodes) - 1
+        
+        # Calculate the score for the candidate node
+        score = c1 * direct_distance + c2 * look_ahead_distance + c3 * distance_matrix[node][destination_node]
+        
+        # Update the best node if the score is better
+        if score < best_score:
+            best_score = score
+            best_node = node
+            
+    return best_node
+```
+This `select_next_node_v2` function uses a look-ahead mechanism by considering the average distance from the candidate node to all other unvisited nodes, which helps to minimize the overall tour length.

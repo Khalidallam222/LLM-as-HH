@@ -1,0 +1,32 @@
+```python
+import numpy as np
+
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes using a look-ahead mechanism."""
+    # Define weights for the scoring function
+    c1, c2, c3 = 0.5, 0.3, 0.2
+    scores = {}
+    current_path_length = 0
+
+    # Iterate over all unvisited nodes to calculate scores
+    for node in unvisited_nodes:
+        # Calculate the direct distance from the current node to the next one
+        direct_distance = distance_matrix[current_node][node]
+        # Look-ahead: estimate the distance from the next node to the destination
+        look_ahead_distance = distance_matrix[node][destination_node]
+        # Look-ahead: estimate the total path length if we visit this node next
+        if node != destination_node:
+            remaining_nodes = unvisited_nodes - {node}
+            remaining_distances = [distance_matrix[node][i] for i in remaining_nodes]
+            total_remaining_distance = sum(remaining_distances) + look_ahead_distance
+        else:
+            total_remaining_distance = look_ahead_distance
+        # Calculate the score for choosing this node
+        score = c1 * direct_distance + c2 * look_ahead_distance - c3 * total_remaining_distance
+        scores[node] = score + current_path_length if node in scores else score
+
+    # Select the node with the lowest score (best candidate)
+    next_node = min(scores, key=scores.get)
+    return next_node
+```
+This version incorporates a look-ahead mechanism that estimates the total remaining path length if the current node is chosen as the next one. This heuristic helps to make a more informed decision about which node to visit next.

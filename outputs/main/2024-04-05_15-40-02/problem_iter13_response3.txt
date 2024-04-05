@@ -1,0 +1,24 @@
+```python
+import numpy as np
+
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes using a look-ahead heuristic."""
+    # Look-ahead heuristic: choose the node that minimizes the sum of the current distance
+    # and the estimated distance to the remaining nodes.
+    min_distance = float('inf')
+    next_node = -1
+    for node in unvisited_nodes:
+        # Calculate the current distance from the current node to the candidate node.
+        current_dist = distance_matrix[current_node][node]
+        # Estimate the remaining distance from the candidate node to the destination node
+        # and to the other unvisited nodes.
+        remaining_dist = sum(distance_matrix[node][i] for i in unvisited_nodes if i != node)
+        # Total distance is a weighted sum of current and remaining distances.
+        total_dist = current_dist + remaining_dist
+        # Select the node with the minimum estimated total distance.
+        if total_dist < min_distance:
+            min_distance = total_dist
+            next_node = node
+    return next_node
+```
+This heuristic function `select_next_node_v2` tries to minimize the total estimated distance by considering the current distance to the next node and the sum of distances from that node to all the remaining unvisited nodes. This is a simple look-ahead strategy that does not require complex scoring and can be effective in certain cases for the TSP problem.

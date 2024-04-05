@@ -1,0 +1,20 @@
+```python
+import numpy as np
+
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes using a look-ahead heuristic."""
+    # A simple look-ahead heuristic: choose the node that minimizes the total distance from the current node
+    # to the next node and from the next node to the destination node, combined with the distance to the remaining nodes.
+    
+    scores = {}
+    for node in unvisited_nodes:
+        # Look-ahead: estimate the cost if we visit this node next
+        look_ahead_cost = sum(distance_matrix[node][n] for n in unvisited_nodes if n != node)
+        # Score the node based on the distance to the current node, the look-ahead cost, and the distance to the destination
+        scores[node] = distance_matrix[current_node][node] + look_ahead_cost + distance_matrix[node][destination_node]
+    
+    # Select the node with the lowest score
+    next_node = min(scores, key=scores.get)
+    return next_node
+```
+This `select_next_node_v2` function uses a look-ahead heuristic by considering the sum of distances from the current node to the potential next node, from the potential next node to the destination node, and the sum of distances from the potential next node to all the remaining unvisited nodes. This encourages the selection of nodes that are likely to lead to a shorter overall path.

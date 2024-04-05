@@ -1,0 +1,24 @@
+```python
+import numpy as np
+
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes using a look-ahead heuristic."""
+    # Define weights for the scoring heuristic
+    c1, c2, c3 = 0.6, 0.3, 0.1  # Adjusted weights for distance to current, distance to destination, and number of remaining neighbors
+
+    scores = {}
+    for node in unvisited_nodes:
+        # Calculate the distance from the current node to the potential next node
+        distance_to_node = distance_matrix[current_node][node]
+        # Calculate the distance from the potential next node to the destination node
+        distance_to_destination = distance_matrix[node][destination_node]
+        # Look-ahead: Estimate the future cost by summing the distances from this node to all other unvisited nodes
+        future_cost = sum(distance_matrix[node][i] for i in unvisited_nodes if i != node)
+        # Calculate the score for the potential next node
+        score = c1 * distance_to_node - c2 * distance_to_destination + c3 * future_cost
+        scores[node] = score
+
+    # Select the node with the lowest score (best candidate)
+    next_node = min(scores, key=scores.get)
+    return next_node
+```

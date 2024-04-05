@@ -1,0 +1,23 @@
+```python
+import numpy as np
+
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes using a look-ahead heuristic."""
+    # Look-ahead by considering the distance from the next node to the remaining nodes
+    scores = {}
+    for node in unvisited_nodes:
+        # Score based on the direct distance from the current node to the next node
+        direct_distance = distance_matrix[current_node][node]
+        # Look-ahead score: sum of distances from the next node to all other unvisited nodes
+        look_ahead_distance = sum(distance_matrix[node][i] for i in unvisited_nodes if i != node)
+        # Penalize if the node is far from the final destination
+        destination_factor = distance_matrix[destination_node][node]
+        # Calculate the score by combining the above factors
+        score = direct_distance + look_ahead_distance - destination_factor
+        scores[node] = score
+    
+    # Select the node with the lowest score as the next node to visit
+    next_node = min(scores, key=scores.get)
+    return next_node
+```
+This function uses a simple look-ahead heuristic that takes into account the sum of distances from the next node to all other unvisited nodes, along with the direct distance to the next node and its distance from the final destination. The node with the lowest combined score is selected as the next node to visit.

@@ -1,0 +1,122 @@
+[2024-04-05 15:09:24,119][root][INFO] - Workspace: /home/khalid/MyWork/AI-research-project/ReEvo/LLM-as-HH/outputs/main/2024-04-05_15-09-24
+[2024-04-05 15:09:24,119][root][INFO] - Project Root: /home/khalid/MyWork/AI-research-project/ReEvo/LLM-as-HH
+[2024-04-05 15:09:24,119][root][INFO] - Using LLM: GLM-4
+[2024-04-05 15:09:24,119][root][INFO] - Using Algorithm: reevo
+[2024-04-05 15:09:24,610][root][INFO] - Problem: tsp_constructive
+[2024-04-05 15:09:24,611][root][INFO] - Problem description: Solving Traveling Salesman Problem (TSP) with constructive heuristics. TSP requires finding the shortest path that visits all given nodes and returns to the starting node.
+[2024-04-05 15:09:24,611][root][INFO] - Function name: select_next_node
+[2024-04-05 15:09:24,611][root][INFO] - Evaluating seed function...
+[2024-04-05 15:09:24,612][root][INFO] - Seed function code: 
+import numpy as np
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes."""
+    threshold = 0.7
+    c1, c2, c3, c4 = 0.4, 0.3, 0.2, 0.1
+    scores = {}
+    for node in unvisited_nodes:
+        all_distances = [distance_matrix[node][i] for i in unvisited_nodes if i != node]
+        average_distance_to_unvisited = np.mean(all_distances)
+        std_dev_distance_to_unvisited = np.std(all_distances)
+        score = c1 * distance_matrix[current_node][node] - c2 * average_distance_to_unvisited + c3 * std_dev_distance_to_unvisited - c4 * distance_matrix[destination_node][node]
+        scores[node] = score
+    next_node = min(scores, key=scores.get)
+    return next_node
+[2024-04-05 15:09:24,612][root][INFO] - Iteration 0: Running Code 0
+[2024-04-05 15:09:24,925][root][INFO] - Iteration 0: Code Run 0 successful!
+[2024-04-05 15:09:27,895][root][INFO] - Iteration 0, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:09:27,895][root][INFO] - Iteration 0: Elitist: 6.273092009780198
+[2024-04-05 15:09:27,895][root][INFO] - Iteration 0 finished...
+[2024-04-05 15:09:27,895][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:09:27,895][root][INFO] - Function Evals: 1
+[2024-04-05 15:09:27,896][root][INFO] - Initial Population Prompt: 
+System Prompt: 
+You are an expert in the domain of optimization heuristics. Your task is to design heuristics that can effectively solve optimization problems.
+Your response outputs Python code and nothing else. Format your code as a Python code string: "```python ... ```".
+
+User Prompt: 
+Write a select_next_node function for Solving Traveling Salesman Problem (TSP) with constructive heuristics. TSP requires finding the shortest path that visits all given nodes and returns to the starting node.
+The select_next_node function takes as input the current node, the destination_node, a set of unvisited nodes, and a distance matrix, and returns the next node to visit.
+
+
+def select_next_node_v1(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes."""
+    threshold = 0.7
+    c1, c2, c3, c4 = 0.4, 0.3, 0.2, 0.1
+    scores = {}
+    for node in unvisited_nodes:
+        all_distances = [distance_matrix[node][i] for i in unvisited_nodes if i != node]
+        average_distance_to_unvisited = np.mean(all_distances)
+        std_dev_distance_to_unvisited = np.std(all_distances)
+        score = c1 * distance_matrix[current_node][node] - c2 * average_distance_to_unvisited + c3 * std_dev_distance_to_unvisited - c4 * distance_matrix[destination_node][node]
+        scores[node] = score
+    next_node = min(scores, key=scores.get)
+    return next_node
+
+
+Improve `select_next_node_v1` to give `select_next_node_v2`. Output code only and enclose your code with Python code block: ```python ... ```.
+
+- Try look-ahead mechanisms.
+[2024-04-05 15:09:39,259][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:09:39,260][root][INFO] - Attempt 1 failed with error: Request Timeout
+[2024-04-05 15:09:49,693][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:09:49,693][root][INFO] - Attempt 2 failed with error: Request Timeout
+[2024-04-05 15:09:58,999][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:09:58,999][root][INFO] - Attempt 3 failed with error: Request Timeout
+[2024-04-05 15:10:08,383][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:10:08,383][root][INFO] - Attempt 4 failed with error: Request Timeout
+[2024-04-05 15:10:17,799][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:10:17,800][root][INFO] - Attempt 5 failed with error: Request Timeout
+[2024-04-05 15:10:28,243][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:10:28,243][root][INFO] - Attempt 6 failed with error: Request Timeout
+[2024-04-05 15:10:38,675][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:10:38,675][root][INFO] - Attempt 7 failed with error: Request Timeout
+[2024-04-05 15:10:48,047][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:10:48,047][root][INFO] - Attempt 8 failed with error: Request Timeout
+[2024-04-05 15:10:57,395][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:10:57,396][root][INFO] - Attempt 9 failed with error: Request Timeout
+[2024-04-05 15:11:06,801][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:11:06,801][root][INFO] - Attempt 10 failed with error: Request Timeout
+[2024-04-05 15:11:16,335][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:11:16,335][root][INFO] - Attempt 11 failed with error: Request Timeout
+[2024-04-05 15:11:25,731][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:11:25,732][root][INFO] - Attempt 12 failed with error: Request Timeout
+[2024-04-05 15:11:36,127][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:11:36,127][root][INFO] - Attempt 13 failed with error: Request Timeout
+[2024-04-05 15:11:46,527][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:11:46,527][root][INFO] - Attempt 14 failed with error: Request Timeout
+[2024-04-05 15:11:56,107][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:11:56,108][root][INFO] - Attempt 15 failed with error: Request Timeout
+[2024-04-05 15:12:05,531][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:12:05,531][root][INFO] - Attempt 16 failed with error: Request Timeout
+[2024-04-05 15:12:15,862][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:12:15,863][root][INFO] - Attempt 17 failed with error: Request Timeout
+[2024-04-05 15:12:25,251][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:12:25,252][root][INFO] - Attempt 18 failed with error: Request Timeout
+[2024-04-05 15:12:34,579][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:12:34,580][root][INFO] - Attempt 19 failed with error: Request Timeout
+[2024-04-05 15:12:45,001][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:12:45,002][root][INFO] - Attempt 20 failed with error: Request Timeout
+[2024-04-05 15:12:56,403][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:12:56,404][root][INFO] - Attempt 21 failed with error: Request Timeout
+[2024-04-05 15:13:05,771][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:13:05,771][root][INFO] - Attempt 22 failed with error: Request Timeout
+[2024-04-05 15:13:17,147][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:13:17,148][root][INFO] - Attempt 23 failed with error: Request Timeout
+[2024-04-05 15:13:28,523][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:13:28,523][root][INFO] - Attempt 24 failed with error: Request Timeout
+[2024-04-05 15:13:37,983][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:13:37,983][root][INFO] - Attempt 25 failed with error: Request Timeout
+[2024-04-05 15:13:47,463][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:13:47,464][root][INFO] - Attempt 26 failed with error: Request Timeout
+[2024-04-05 15:13:56,859][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:13:56,859][root][INFO] - Attempt 27 failed with error: Request Timeout
+[2024-04-05 15:14:06,251][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:14:06,252][root][INFO] - Attempt 28 failed with error: Request Timeout
+[2024-04-05 15:14:15,950][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:14:15,950][root][INFO] - Attempt 29 failed with error: Request Timeout
+[2024-04-05 15:14:25,547][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:14:25,547][root][INFO] - Attempt 30 failed with error: Request Timeout
+[2024-04-05 15:14:36,014][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:14:36,015][root][INFO] - Attempt 31 failed with error: Request Timeout
+[2024-04-05 15:14:45,571][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:14:45,571][root][INFO] - Attempt 32 failed with error: Request Timeout

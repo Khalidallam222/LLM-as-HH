@@ -1,0 +1,570 @@
+[2024-04-05 15:40:02,478][root][INFO] - Workspace: /home/khalid/MyWork/AI-research-project/ReEvo/LLM-as-HH/outputs/main/2024-04-05_15-40-02
+[2024-04-05 15:40:02,478][root][INFO] - Project Root: /home/khalid/MyWork/AI-research-project/ReEvo/LLM-as-HH
+[2024-04-05 15:40:02,478][root][INFO] - Using LLM: GLM-4
+[2024-04-05 15:40:02,478][root][INFO] - Using Algorithm: reevo
+[2024-04-05 15:40:02,853][root][INFO] - Problem: tsp_constructive
+[2024-04-05 15:40:02,853][root][INFO] - Problem description: Solving Traveling Salesman Problem (TSP) with constructive heuristics. TSP requires finding the shortest path that visits all given nodes and returns to the starting node.
+[2024-04-05 15:40:02,853][root][INFO] - Function name: select_next_node
+[2024-04-05 15:40:02,853][root][INFO] - Evaluating seed function...
+[2024-04-05 15:40:02,854][root][INFO] - Seed function code: 
+import numpy as np
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes."""
+    threshold = 0.7
+    c1, c2, c3, c4 = 0.4, 0.3, 0.2, 0.1
+    scores = {}
+    for node in unvisited_nodes:
+        all_distances = [distance_matrix[node][i] for i in unvisited_nodes if i != node]
+        average_distance_to_unvisited = np.mean(all_distances)
+        std_dev_distance_to_unvisited = np.std(all_distances)
+        score = c1 * distance_matrix[current_node][node] - c2 * average_distance_to_unvisited + c3 * std_dev_distance_to_unvisited - c4 * distance_matrix[destination_node][node]
+        scores[node] = score
+    next_node = min(scores, key=scores.get)
+    return next_node
+[2024-04-05 15:40:02,854][root][INFO] - Iteration 0: Running Code 0
+[2024-04-05 15:40:03,113][root][INFO] - Iteration 0: Code Run 0 successful!
+[2024-04-05 15:40:05,931][root][INFO] - Iteration 0, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:40:05,932][root][INFO] - Iteration 0: Elitist: 6.273092009780198
+[2024-04-05 15:40:05,932][root][INFO] - Iteration 0 finished...
+[2024-04-05 15:40:05,932][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:40:05,932][root][INFO] - Function Evals: 1
+[2024-04-05 15:40:05,932][root][INFO] - Initial Population Prompt: 
+System Prompt: 
+You are an expert in the domain of optimization heuristics. Your task is to design heuristics that can effectively solve optimization problems.
+Your response outputs Python code and nothing else. Format your code as a Python code string: "```python ... ```".
+
+User Prompt: 
+Write a select_next_node function for Solving Traveling Salesman Problem (TSP) with constructive heuristics. TSP requires finding the shortest path that visits all given nodes and returns to the starting node.
+The select_next_node function takes as input the current node, the destination_node, a set of unvisited nodes, and a distance matrix, and returns the next node to visit.
+
+
+def select_next_node_v1(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes."""
+    threshold = 0.7
+    c1, c2, c3, c4 = 0.4, 0.3, 0.2, 0.1
+    scores = {}
+    for node in unvisited_nodes:
+        all_distances = [distance_matrix[node][i] for i in unvisited_nodes if i != node]
+        average_distance_to_unvisited = np.mean(all_distances)
+        std_dev_distance_to_unvisited = np.std(all_distances)
+        score = c1 * distance_matrix[current_node][node] - c2 * average_distance_to_unvisited + c3 * std_dev_distance_to_unvisited - c4 * distance_matrix[destination_node][node]
+        scores[node] = score
+    next_node = min(scores, key=scores.get)
+    return next_node
+
+
+Improve `select_next_node_v1` to give `select_next_node_v2`. Output code only and enclose your code with Python code block: ```python ... ```.
+
+- Try look-ahead mechanisms.
+[2024-04-05 15:40:14,504][root][INFO] - Current Chunk Size: 1
+[2024-04-05 15:40:14,504][root][INFO] - Attempt 1 failed with error: Request Timeout
+[2024-04-05 15:40:35,074][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:41:04,258][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:41:16,136][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:41:29,653][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:41:44,296][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:42:01,297][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:42:14,198][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:42:27,101][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:42:42,871][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:42:56,593][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:42:57,007][root][INFO] - Iteration 1: Running Code 0
+[2024-04-05 15:42:57,211][root][INFO] - Iteration 1: Code Run 0 successful!
+[2024-04-05 15:42:57,211][root][INFO] - Iteration 1: Running Code 1
+[2024-04-05 15:42:57,433][root][INFO] - Iteration 1: Code Run 1 successful!
+[2024-04-05 15:42:57,433][root][INFO] - Iteration 1: Running Code 2
+[2024-04-05 15:42:57,642][root][INFO] - Iteration 1: Code Run 2 successful!
+[2024-04-05 15:42:57,642][root][INFO] - Iteration 1: Running Code 3
+[2024-04-05 15:42:57,938][root][INFO] - Iteration 1: Code Run 3 successful!
+[2024-04-05 15:42:57,938][root][INFO] - Iteration 1: Running Code 4
+[2024-04-05 15:42:58,120][root][INFO] - Iteration 1: Code Run 4 successful!
+[2024-04-05 15:42:58,120][root][INFO] - Iteration 1: Running Code 5
+[2024-04-05 15:42:58,327][root][INFO] - Iteration 1: Code Run 5 successful!
+[2024-04-05 15:42:58,327][root][INFO] - Iteration 1: Running Code 6
+[2024-04-05 15:42:58,652][root][INFO] - Iteration 1: Code Run 6 successful!
+[2024-04-05 15:42:58,652][root][INFO] - Iteration 1: Running Code 7
+[2024-04-05 15:42:58,904][root][INFO] - Iteration 1: Code Run 7 successful!
+[2024-04-05 15:42:58,904][root][INFO] - Iteration 1: Running Code 8
+[2024-04-05 15:42:59,217][root][INFO] - Iteration 1: Code Run 8 successful!
+[2024-04-05 15:42:59,217][root][INFO] - Iteration 1: Running Code 9
+[2024-04-05 15:42:59,513][root][INFO] - Iteration 1: Code Run 9 successful!
+[2024-04-05 15:43:01,480][root][INFO] - Iteration 1, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:43:02,946][root][INFO] - Iteration 1, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:43:02,946][root][INFO] - Iteration 1, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:43:03,060][root][INFO] - Iteration 1, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:43:03,060][root][INFO] - Iteration 1, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:43:03,067][root][INFO] - Iteration 1, response_id 5: Objective value: 6.273092009780198
+[2024-04-05 15:43:03,067][root][INFO] - Iteration 1, response_id 6: Objective value: 6.273092009780198
+[2024-04-05 15:43:03,067][root][INFO] - Iteration 1, response_id 7: Objective value: 6.273092009780198
+[2024-04-05 15:43:03,067][root][INFO] - Iteration 1, response_id 8: Objective value: 6.273092009780198
+[2024-04-05 15:43:03,068][root][INFO] - Iteration 1, response_id 9: Objective value: 6.273092009780198
+[2024-04-05 15:43:03,068][root][INFO] - Iteration 1 finished...
+[2024-04-05 15:43:03,068][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:43:03,068][root][INFO] - Function Evals: 11
+[2024-04-05 15:43:03,090][root][INFO] - Mutation Prompt: 
+System Prompt: 
+You are an expert in the domain of optimization heuristics. Your task is to design heuristics that can effectively solve optimization problems.
+Your response outputs Python code and nothing else. Format your code as a Python code string: "```python ... ```".
+
+User Prompt: 
+Write a select_next_node function for Solving Traveling Salesman Problem (TSP) with constructive heuristics. TSP requires finding the shortest path that visits all given nodes and returns to the starting node.
+The select_next_node function takes as input the current node, the destination_node, a set of unvisited nodes, and a distance matrix, and returns the next node to visit.
+
+
+
+[Prior reflection]
+- Try look-ahead mechanisms.- Try look-ahead mechanisms.
+
+[Code]
+def select_next_node_v1(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes."""
+    threshold = 0.7
+    c1, c2, c3, c4 = 0.4, 0.3, 0.2, 0.1
+    scores = {}
+    for node in unvisited_nodes:
+        all_distances = [distance_matrix[node][i] for i in unvisited_nodes if i != node]
+        average_distance_to_unvisited = np.mean(all_distances)
+        std_dev_distance_to_unvisited = np.std(all_distances)
+        score = c1 * distance_matrix[current_node][node] - c2 * average_distance_to_unvisited + c3 * std_dev_distance_to_unvisited - c4 * distance_matrix[destination_node][node]
+        scores[node] = score
+    next_node = min(scores, key=scores.get)
+    return next_node
+
+[Improved code]
+Please write a mutated function `select_next_node_v2`, according to the reflection. Output code only and enclose your code with Python code block: ```python ... ```.
+[2024-04-05 15:43:20,043][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:43:31,000][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:43:41,856][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:44:01,926][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:44:13,907][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:44:15,241][root][INFO] - Iteration 2: Running Code 0
+[2024-04-05 15:44:15,476][root][INFO] - Iteration 2: Code Run 0 successful!
+[2024-04-05 15:44:15,476][root][INFO] - Iteration 2: Running Code 1
+[2024-04-05 15:44:15,673][root][INFO] - Iteration 2: Code Run 1 successful!
+[2024-04-05 15:44:15,673][root][INFO] - Iteration 2: Running Code 2
+[2024-04-05 15:44:15,908][root][INFO] - Iteration 2: Code Run 2 successful!
+[2024-04-05 15:44:15,908][root][INFO] - Iteration 2: Running Code 3
+[2024-04-05 15:44:16,167][root][INFO] - Iteration 2: Code Run 3 successful!
+[2024-04-05 15:44:16,167][root][INFO] - Iteration 2: Running Code 4
+[2024-04-05 15:44:16,502][root][INFO] - Iteration 2: Code Run 4 successful!
+[2024-04-05 15:44:18,819][root][INFO] - Iteration 2, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:44:18,983][root][INFO] - Iteration 2, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:44:19,146][root][INFO] - Iteration 2, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:44:19,310][root][INFO] - Iteration 2, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:44:19,525][root][INFO] - Iteration 2, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:44:19,525][root][INFO] - Iteration 2 finished...
+[2024-04-05 15:44:19,525][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:44:19,525][root][INFO] - Function Evals: 16
+[2024-04-05 15:44:30,291][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:44:42,170][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:44:51,898][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:45:04,903][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:45:12,685][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:45:12,690][root][INFO] - Iteration 3: Running Code 0
+[2024-04-05 15:45:12,894][root][INFO] - Iteration 3: Code Run 0 successful!
+[2024-04-05 15:45:12,894][root][INFO] - Iteration 3: Running Code 1
+[2024-04-05 15:45:13,104][root][INFO] - Iteration 3: Code Run 1 successful!
+[2024-04-05 15:45:13,104][root][INFO] - Iteration 3: Running Code 2
+[2024-04-05 15:45:13,309][root][INFO] - Iteration 3: Code Run 2 successful!
+[2024-04-05 15:45:13,309][root][INFO] - Iteration 3: Running Code 3
+[2024-04-05 15:45:13,523][root][INFO] - Iteration 3: Code Run 3 successful!
+[2024-04-05 15:45:13,525][root][INFO] - Iteration 3: Running Code 4
+[2024-04-05 15:45:13,794][root][INFO] - Iteration 3: Code Run 4 successful!
+[2024-04-05 15:45:16,461][root][INFO] - Iteration 3, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:45:16,461][root][INFO] - Iteration 3, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:45:16,625][root][INFO] - Iteration 3, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:45:16,739][root][INFO] - Iteration 3, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:45:16,853][root][INFO] - Iteration 3, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:45:16,853][root][INFO] - Iteration 3 finished...
+[2024-04-05 15:45:16,853][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:45:16,853][root][INFO] - Function Evals: 21
+[2024-04-05 15:45:30,197][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:45:36,648][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:45:45,557][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:45:57,026][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:46:07,983][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:46:07,987][root][INFO] - Iteration 4: Running Code 0
+[2024-04-05 15:46:08,228][root][INFO] - Iteration 4: Code Run 0 successful!
+[2024-04-05 15:46:08,228][root][INFO] - Iteration 4: Running Code 1
+[2024-04-05 15:46:08,458][root][INFO] - Iteration 4: Code Run 1 successful!
+[2024-04-05 15:46:08,458][root][INFO] - Iteration 4: Running Code 2
+[2024-04-05 15:46:08,717][root][INFO] - Iteration 4: Code Run 2 successful!
+[2024-04-05 15:46:08,717][root][INFO] - Iteration 4: Running Code 3
+[2024-04-05 15:46:08,919][root][INFO] - Iteration 4: Code Run 3 successful!
+[2024-04-05 15:46:08,919][root][INFO] - Iteration 4: Running Code 4
+[2024-04-05 15:46:09,149][root][INFO] - Iteration 4: Code Run 4 successful!
+[2024-04-05 15:46:11,716][root][INFO] - Iteration 4, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:46:11,830][root][INFO] - Iteration 4, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:46:11,894][root][INFO] - Iteration 4, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:46:12,259][root][INFO] - Iteration 4, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:46:12,259][root][INFO] - Iteration 4, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:46:12,259][root][INFO] - Iteration 4 finished...
+[2024-04-05 15:46:12,259][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:46:12,259][root][INFO] - Function Evals: 26
+[2024-04-05 15:46:20,374][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:46:28,360][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:46:39,420][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:46:48,432][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:47:01,027][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:47:01,032][root][INFO] - Iteration 5: Running Code 0
+[2024-04-05 15:47:01,235][root][INFO] - Iteration 5: Code Run 0 successful!
+[2024-04-05 15:47:01,235][root][INFO] - Iteration 5: Running Code 1
+[2024-04-05 15:47:01,458][root][INFO] - Iteration 5: Code Run 1 successful!
+[2024-04-05 15:47:01,458][root][INFO] - Iteration 5: Running Code 2
+[2024-04-05 15:47:01,779][root][INFO] - Iteration 5: Code Run 2 successful!
+[2024-04-05 15:47:01,779][root][INFO] - Iteration 5: Running Code 3
+[2024-04-05 15:47:02,065][root][INFO] - Iteration 5: Code Run 3 successful!
+[2024-04-05 15:47:02,065][root][INFO] - Iteration 5: Running Code 4
+[2024-04-05 15:47:02,359][root][INFO] - Iteration 5: Code Run 4 successful!
+[2024-04-05 15:47:04,726][root][INFO] - Iteration 5, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:47:04,726][root][INFO] - Iteration 5, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:47:04,890][root][INFO] - Iteration 5, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:47:05,104][root][INFO] - Iteration 5, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:47:05,218][root][INFO] - Iteration 5, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:47:05,218][root][INFO] - Iteration 5 finished...
+[2024-04-05 15:47:05,218][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:47:05,218][root][INFO] - Function Evals: 31
+[2024-04-05 15:47:16,080][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:47:25,911][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:47:37,277][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:47:47,016][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:47:57,759][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:47:57,763][root][INFO] - Iteration 6: Running Code 0
+[2024-04-05 15:47:57,966][root][INFO] - Iteration 6: Code Run 0 successful!
+[2024-04-05 15:47:57,967][root][INFO] - Iteration 6: Running Code 1
+[2024-04-05 15:47:58,216][root][INFO] - Iteration 6: Code Run 1 successful!
+[2024-04-05 15:47:58,216][root][INFO] - Iteration 6: Running Code 2
+[2024-04-05 15:47:58,474][root][INFO] - Iteration 6: Code Run 2 successful!
+[2024-04-05 15:47:58,474][root][INFO] - Iteration 6: Running Code 3
+[2024-04-05 15:47:58,702][root][INFO] - Iteration 6: Code Run 3 successful!
+[2024-04-05 15:47:58,702][root][INFO] - Iteration 6: Running Code 4
+[2024-04-05 15:47:59,025][root][INFO] - Iteration 6: Code Run 4 successful!
+[2024-04-05 15:48:01,292][root][INFO] - Iteration 6, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:48:01,756][root][INFO] - Iteration 6, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:48:01,756][root][INFO] - Iteration 6, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:48:02,020][root][INFO] - Iteration 6, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:48:02,020][root][INFO] - Iteration 6, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:48:02,020][root][INFO] - Iteration 6 finished...
+[2024-04-05 15:48:02,020][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:48:02,020][root][INFO] - Function Evals: 36
+[2024-04-05 15:48:10,968][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:48:19,672][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:48:30,732][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:48:41,893][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:48:51,621][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:48:51,626][root][INFO] - Iteration 7: Running Code 0
+[2024-04-05 15:48:51,832][root][INFO] - Iteration 7: Code Run 0 successful!
+[2024-04-05 15:48:51,832][root][INFO] - Iteration 7: Running Code 1
+[2024-04-05 15:48:52,121][root][INFO] - Iteration 7: Code Run 1 successful!
+[2024-04-05 15:48:52,121][root][INFO] - Iteration 7: Running Code 2
+[2024-04-05 15:48:52,358][root][INFO] - Iteration 7: Code Run 2 successful!
+[2024-04-05 15:48:52,359][root][INFO] - Iteration 7: Running Code 3
+[2024-04-05 15:48:52,615][root][INFO] - Iteration 7: Code Run 3 successful!
+[2024-04-05 15:48:52,615][root][INFO] - Iteration 7: Running Code 4
+[2024-04-05 15:48:52,876][root][INFO] - Iteration 7: Code Run 4 successful!
+[2024-04-05 15:48:55,394][root][INFO] - Iteration 7, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:48:55,557][root][INFO] - Iteration 7, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:48:55,558][root][INFO] - Iteration 7, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:48:55,721][root][INFO] - Iteration 7, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:48:55,935][root][INFO] - Iteration 7, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:48:55,935][root][INFO] - Iteration 7 finished...
+[2024-04-05 15:48:55,936][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:48:55,936][root][INFO] - Function Evals: 41
+[2024-04-05 15:49:06,885][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:49:14,150][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:49:21,831][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:49:32,480][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:49:43,232][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:49:43,237][root][INFO] - Iteration 8: Running Code 0
+[2024-04-05 15:49:43,443][root][INFO] - Iteration 8: Code Run 0 successful!
+[2024-04-05 15:49:43,443][root][INFO] - Iteration 8: Running Code 1
+[2024-04-05 15:49:43,690][root][INFO] - Iteration 8: Code Run 1 successful!
+[2024-04-05 15:49:43,690][root][INFO] - Iteration 8: Running Code 2
+[2024-04-05 15:49:43,939][root][INFO] - Iteration 8: Code Run 2 successful!
+[2024-04-05 15:49:43,939][root][INFO] - Iteration 8: Running Code 3
+[2024-04-05 15:49:44,188][root][INFO] - Iteration 8: Code Run 3 successful!
+[2024-04-05 15:49:44,188][root][INFO] - Iteration 8: Running Code 4
+[2024-04-05 15:49:44,497][root][INFO] - Iteration 8: Code Run 4 successful!
+[2024-04-05 15:49:46,965][root][INFO] - Iteration 8, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:49:47,079][root][INFO] - Iteration 8, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:49:47,143][root][INFO] - Iteration 8, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:49:47,206][root][INFO] - Iteration 8, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:49:47,571][root][INFO] - Iteration 8, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:49:47,571][root][INFO] - Iteration 8 finished...
+[2024-04-05 15:49:47,571][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:49:47,571][root][INFO] - Function Evals: 46
+[2024-04-05 15:49:55,623][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:50:07,092][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:50:17,127][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:50:29,416][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:50:38,427][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:50:38,432][root][INFO] - Iteration 9: Running Code 0
+[2024-04-05 15:50:38,638][root][INFO] - Iteration 9: Code Run 0 successful!
+[2024-04-05 15:50:38,638][root][INFO] - Iteration 9: Running Code 1
+[2024-04-05 15:50:38,862][root][INFO] - Iteration 9: Code Run 1 successful!
+[2024-04-05 15:50:38,862][root][INFO] - Iteration 9: Running Code 2
+[2024-04-05 15:50:39,102][root][INFO] - Iteration 9: Code Run 2 successful!
+[2024-04-05 15:50:39,103][root][INFO] - Iteration 9: Running Code 3
+[2024-04-05 15:50:39,434][root][INFO] - Iteration 9: Code Run 3 successful!
+[2024-04-05 15:50:39,434][root][INFO] - Iteration 9: Running Code 4
+[2024-04-05 15:50:39,724][root][INFO] - Iteration 9: Code Run 4 successful!
+[2024-04-05 15:50:42,091][root][INFO] - Iteration 9, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:50:42,405][root][INFO] - Iteration 9, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:50:42,406][root][INFO] - Iteration 9, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:50:42,620][root][INFO] - Iteration 9, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:50:42,651][root][INFO] - Iteration 9, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:50:42,651][root][INFO] - Iteration 9 finished...
+[2024-04-05 15:50:42,651][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:50:42,651][root][INFO] - Function Evals: 51
+[2024-04-05 15:50:53,480][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:51:03,925][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:51:14,780][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:51:23,999][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:51:30,550][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:51:30,554][root][INFO] - Iteration 10: Running Code 0
+[2024-04-05 15:51:30,801][root][INFO] - Iteration 10: Code Run 0 successful!
+[2024-04-05 15:51:30,801][root][INFO] - Iteration 10: Running Code 1
+[2024-04-05 15:51:31,029][root][INFO] - Iteration 10: Code Run 1 successful!
+[2024-04-05 15:51:31,029][root][INFO] - Iteration 10: Running Code 2
+[2024-04-05 15:51:31,258][root][INFO] - Iteration 10: Code Run 2 successful!
+[2024-04-05 15:51:31,259][root][INFO] - Iteration 10: Running Code 3
+[2024-04-05 15:51:31,501][root][INFO] - Iteration 10: Code Run 3 successful!
+[2024-04-05 15:51:31,501][root][INFO] - Iteration 10: Running Code 4
+[2024-04-05 15:51:31,758][root][INFO] - Iteration 10: Code Run 4 successful!
+[2024-04-05 15:51:34,325][root][INFO] - Iteration 10, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:51:34,439][root][INFO] - Iteration 10, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:51:34,503][root][INFO] - Iteration 10, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:51:34,667][root][INFO] - Iteration 10, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:51:34,781][root][INFO] - Iteration 10, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:51:34,781][root][INFO] - Iteration 10 finished...
+[2024-04-05 15:51:34,781][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:51:34,781][root][INFO] - Function Evals: 56
+[2024-04-05 15:51:44,682][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:51:53,602][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:52:03,933][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:52:11,715][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:52:19,908][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:52:19,912][root][INFO] - Iteration 11: Running Code 0
+[2024-04-05 15:52:20,116][root][INFO] - Iteration 11: Code Run 0 successful!
+[2024-04-05 15:52:20,116][root][INFO] - Iteration 11: Running Code 1
+[2024-04-05 15:52:20,434][root][INFO] - Iteration 11: Code Run 1 successful!
+[2024-04-05 15:52:20,434][root][INFO] - Iteration 11: Running Code 2
+[2024-04-05 15:52:20,662][root][INFO] - Iteration 11: Code Run 2 successful!
+[2024-04-05 15:52:20,662][root][INFO] - Iteration 11: Running Code 3
+[2024-04-05 15:52:20,916][root][INFO] - Iteration 11: Code Run 3 successful!
+[2024-04-05 15:52:20,916][root][INFO] - Iteration 11: Running Code 4
+[2024-04-05 15:52:21,177][root][INFO] - Iteration 11: Code Run 4 successful!
+[2024-04-05 15:52:23,594][root][INFO] - Iteration 11, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:52:23,909][root][INFO] - Iteration 11, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:52:23,909][root][INFO] - Iteration 11, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:52:24,073][root][INFO] - Iteration 11, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:52:24,237][root][INFO] - Iteration 11, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:52:24,237][root][INFO] - Iteration 11 finished...
+[2024-04-05 15:52:24,237][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:52:24,237][root][INFO] - Function Evals: 61
+[2024-04-05 15:52:36,196][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:52:44,894][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:52:55,954][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:53:06,501][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:53:13,362][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:53:13,366][root][INFO] - Iteration 12: Running Code 0
+[2024-04-05 15:53:13,568][root][INFO] - Iteration 12: Code Run 0 successful!
+[2024-04-05 15:53:13,569][root][INFO] - Iteration 12: Running Code 1
+[2024-04-05 15:53:13,767][root][INFO] - Iteration 12: Code Run 1 successful!
+[2024-04-05 15:53:13,767][root][INFO] - Iteration 12: Running Code 2
+[2024-04-05 15:53:14,009][root][INFO] - Iteration 12: Code Run 2 successful!
+[2024-04-05 15:53:14,010][root][INFO] - Iteration 12: Running Code 3
+[2024-04-05 15:53:14,260][root][INFO] - Iteration 12: Code Run 3 successful!
+[2024-04-05 15:53:14,260][root][INFO] - Iteration 12: Running Code 4
+[2024-04-05 15:53:14,547][root][INFO] - Iteration 12: Code Run 4 successful!
+[2024-04-05 15:53:17,015][root][INFO] - Iteration 12, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:53:17,078][root][INFO] - Iteration 12, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:53:17,292][root][INFO] - Iteration 12, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:53:17,506][root][INFO] - Iteration 12, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:53:17,570][root][INFO] - Iteration 12, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:53:17,570][root][INFO] - Iteration 12 finished...
+[2024-04-05 15:53:17,570][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:53:17,571][root][INFO] - Function Evals: 66
+[2024-04-05 15:53:31,078][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:53:38,451][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:53:48,794][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:53:59,750][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:54:09,273][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:54:09,278][root][INFO] - Iteration 13: Running Code 0
+[2024-04-05 15:54:09,482][root][INFO] - Iteration 13: Code Run 0 successful!
+[2024-04-05 15:54:09,482][root][INFO] - Iteration 13: Running Code 1
+[2024-04-05 15:54:09,735][root][INFO] - Iteration 13: Code Run 1 successful!
+[2024-04-05 15:54:09,735][root][INFO] - Iteration 13: Running Code 2
+[2024-04-05 15:54:10,043][root][INFO] - Iteration 13: Code Run 2 successful!
+[2024-04-05 15:54:10,043][root][INFO] - Iteration 13: Running Code 3
+[2024-04-05 15:54:10,300][root][INFO] - Iteration 13: Code Run 3 successful!
+[2024-04-05 15:54:10,300][root][INFO] - Iteration 13: Running Code 4
+[2024-04-05 15:54:10,556][root][INFO] - Iteration 13: Code Run 4 successful!
+[2024-04-05 15:54:12,923][root][INFO] - Iteration 13, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:54:12,987][root][INFO] - Iteration 13, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:54:13,451][root][INFO] - Iteration 13, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:54:13,451][root][INFO] - Iteration 13, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:54:13,483][root][INFO] - Iteration 13, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:54:13,483][root][INFO] - Iteration 13 finished...
+[2024-04-05 15:54:13,483][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:54:13,483][root][INFO] - Function Evals: 71
+[2024-04-05 15:54:22,176][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:54:31,392][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:54:42,042][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:54:50,951][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:55:00,679][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:55:00,684][root][INFO] - Iteration 14: Running Code 0
+[2024-04-05 15:55:00,889][root][INFO] - Iteration 14: Code Run 0 successful!
+[2024-04-05 15:55:00,889][root][INFO] - Iteration 14: Running Code 1
+[2024-04-05 15:55:01,141][root][INFO] - Iteration 14: Code Run 1 successful!
+[2024-04-05 15:55:01,141][root][INFO] - Iteration 14: Running Code 2
+[2024-04-05 15:55:01,348][root][INFO] - Iteration 14: Code Run 2 successful!
+[2024-04-05 15:55:01,348][root][INFO] - Iteration 14: Running Code 3
+[2024-04-05 15:55:01,575][root][INFO] - Iteration 14: Code Run 3 successful!
+[2024-04-05 15:55:01,575][root][INFO] - Iteration 14: Running Code 4
+[2024-04-05 15:55:01,845][root][INFO] - Iteration 14: Code Run 4 successful!
+[2024-04-05 15:55:04,363][root][INFO] - Iteration 14, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:55:04,577][root][INFO] - Iteration 14, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:55:04,640][root][INFO] - Iteration 14, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:55:04,656][root][INFO] - Iteration 14, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:55:04,870][root][INFO] - Iteration 14, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:55:04,871][root][INFO] - Iteration 14 finished...
+[2024-04-05 15:55:04,871][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:55:04,871][root][INFO] - Function Evals: 76
+[2024-04-05 15:55:14,304][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:55:27,713][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:55:36,622][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:55:47,585][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:55:57,000][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:55:57,005][root][INFO] - Iteration 15: Running Code 0
+[2024-04-05 15:55:57,244][root][INFO] - Iteration 15: Code Run 0 successful!
+[2024-04-05 15:55:57,245][root][INFO] - Iteration 15: Running Code 1
+[2024-04-05 15:55:57,449][root][INFO] - Iteration 15: Code Run 1 successful!
+[2024-04-05 15:55:57,449][root][INFO] - Iteration 15: Running Code 2
+[2024-04-05 15:55:57,656][root][INFO] - Iteration 15: Code Run 2 successful!
+[2024-04-05 15:55:57,656][root][INFO] - Iteration 15: Running Code 3
+[2024-04-05 15:55:57,915][root][INFO] - Iteration 15: Code Run 3 successful!
+[2024-04-05 15:55:57,915][root][INFO] - Iteration 15: Running Code 4
+[2024-04-05 15:55:58,176][root][INFO] - Iteration 15: Code Run 4 successful!
+[2024-04-05 15:56:00,644][root][INFO] - Iteration 15, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:56:00,908][root][INFO] - Iteration 15, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:56:00,908][root][INFO] - Iteration 15, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:56:00,939][root][INFO] - Iteration 15, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:56:01,103][root][INFO] - Iteration 15, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:56:01,103][root][INFO] - Iteration 15 finished...
+[2024-04-05 15:56:01,104][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:56:01,104][root][INFO] - Function Evals: 81
+[2024-04-05 15:56:13,492][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:56:21,578][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:56:29,463][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:56:38,784][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:56:49,225][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:56:49,230][root][INFO] - Iteration 16: Running Code 0
+[2024-04-05 15:56:49,473][root][INFO] - Iteration 16: Code Run 0 successful!
+[2024-04-05 15:56:49,474][root][INFO] - Iteration 16: Running Code 1
+[2024-04-05 15:56:49,735][root][INFO] - Iteration 16: Code Run 1 successful!
+[2024-04-05 15:56:49,735][root][INFO] - Iteration 16: Running Code 2
+[2024-04-05 15:56:49,938][root][INFO] - Iteration 16: Code Run 2 successful!
+[2024-04-05 15:56:49,938][root][INFO] - Iteration 16: Running Code 3
+[2024-04-05 15:56:50,133][root][INFO] - Iteration 16: Code Run 3 successful!
+[2024-04-05 15:56:50,133][root][INFO] - Iteration 16: Running Code 4
+[2024-04-05 15:56:50,349][root][INFO] - Iteration 16: Code Run 4 successful!
+[2024-04-05 15:56:52,867][root][INFO] - Iteration 16, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:56:53,081][root][INFO] - Iteration 16, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:56:53,081][root][INFO] - Iteration 16, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:56:53,194][root][INFO] - Iteration 16, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:56:53,359][root][INFO] - Iteration 16, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:56:53,359][root][INFO] - Iteration 16 finished...
+[2024-04-05 15:56:53,360][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:56:53,360][root][INFO] - Function Evals: 86
+[2024-04-05 15:57:02,026][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:57:13,188][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:57:21,791][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:57:32,145][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:57:41,553][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:57:41,558][root][INFO] - Iteration 17: Running Code 0
+[2024-04-05 15:57:41,771][root][INFO] - Iteration 17: Code Run 0 successful!
+[2024-04-05 15:57:41,771][root][INFO] - Iteration 17: Running Code 1
+[2024-04-05 15:57:42,020][root][INFO] - Iteration 17: Code Run 1 successful!
+[2024-04-05 15:57:42,020][root][INFO] - Iteration 17: Running Code 2
+[2024-04-05 15:57:42,247][root][INFO] - Iteration 17: Code Run 2 successful!
+[2024-04-05 15:57:42,247][root][INFO] - Iteration 17: Running Code 3
+[2024-04-05 15:57:42,556][root][INFO] - Iteration 17: Code Run 3 successful!
+[2024-04-05 15:57:42,557][root][INFO] - Iteration 17: Running Code 4
+[2024-04-05 15:57:42,869][root][INFO] - Iteration 17: Code Run 4 successful!
+[2024-04-05 15:57:45,286][root][INFO] - Iteration 17, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:57:45,550][root][INFO] - Iteration 17, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:57:45,550][root][INFO] - Iteration 17, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:57:45,865][root][INFO] - Iteration 17, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:57:45,929][root][INFO] - Iteration 17, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:57:45,929][root][INFO] - Iteration 17 finished...
+[2024-04-05 15:57:45,929][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:57:45,929][root][INFO] - Function Evals: 91
+[2024-04-05 15:57:54,045][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:58:06,945][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:58:15,750][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:58:28,037][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:58:39,401][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:58:39,406][root][INFO] - Iteration 18: Running Code 0
+[2024-04-05 15:58:39,651][root][INFO] - Iteration 18: Code Run 0 successful!
+[2024-04-05 15:58:39,651][root][INFO] - Iteration 18: Running Code 1
+[2024-04-05 15:58:39,897][root][INFO] - Iteration 18: Code Run 1 successful!
+[2024-04-05 15:58:39,897][root][INFO] - Iteration 18: Running Code 2
+[2024-04-05 15:58:40,114][root][INFO] - Iteration 18: Code Run 2 successful!
+[2024-04-05 15:58:40,114][root][INFO] - Iteration 18: Running Code 3
+[2024-04-05 15:58:40,343][root][INFO] - Iteration 18: Code Run 3 successful!
+[2024-04-05 15:58:40,344][root][INFO] - Iteration 18: Running Code 4
+[2024-04-05 15:58:40,584][root][INFO] - Iteration 18: Code Run 4 successful!
+[2024-04-05 15:58:43,202][root][INFO] - Iteration 18, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:58:43,365][root][INFO] - Iteration 18, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:58:43,429][root][INFO] - Iteration 18, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:58:43,543][root][INFO] - Iteration 18, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:58:43,657][root][INFO] - Iteration 18, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:58:43,657][root][INFO] - Iteration 18 finished...
+[2024-04-05 15:58:43,658][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:58:43,658][root][INFO] - Function Evals: 96
+[2024-04-05 15:58:55,066][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:59:05,919][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:59:15,031][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:59:24,859][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:59:37,869][httpx][INFO] - HTTP Request: POST https://open.bigmodel.cn/api/paas/v4/chat/completions "HTTP/1.1 200 "
+[2024-04-05 15:59:37,873][root][INFO] - Iteration 19: Running Code 0
+[2024-04-05 15:59:38,122][root][INFO] - Iteration 19: Code Run 0 successful!
+[2024-04-05 15:59:38,122][root][INFO] - Iteration 19: Running Code 1
+[2024-04-05 15:59:38,310][root][INFO] - Iteration 19: Code Run 1 successful!
+[2024-04-05 15:59:38,311][root][INFO] - Iteration 19: Running Code 2
+[2024-04-05 15:59:38,566][root][INFO] - Iteration 19: Code Run 2 successful!
+[2024-04-05 15:59:38,566][root][INFO] - Iteration 19: Running Code 3
+[2024-04-05 15:59:38,883][root][INFO] - Iteration 19: Code Run 3 successful!
+[2024-04-05 15:59:38,883][root][INFO] - Iteration 19: Running Code 4
+[2024-04-05 15:59:39,124][root][INFO] - Iteration 19: Code Run 4 successful!
+[2024-04-05 15:59:41,792][root][INFO] - Iteration 19, response_id 0: Objective value: 6.273092009780198
+[2024-04-05 15:59:41,956][root][INFO] - Iteration 19, response_id 1: Objective value: 6.273092009780198
+[2024-04-05 15:59:41,956][root][INFO] - Iteration 19, response_id 2: Objective value: 6.273092009780198
+[2024-04-05 15:59:42,170][root][INFO] - Iteration 19, response_id 3: Objective value: 6.273092009780198
+[2024-04-05 15:59:42,284][root][INFO] - Iteration 19, response_id 4: Objective value: 6.273092009780198
+[2024-04-05 15:59:42,285][root][INFO] - Iteration 19 finished...
+[2024-04-05 15:59:42,285][root][INFO] - Best obj: 6.273092009780198, Best Code Path: problem_iter0_code0.py
+[2024-04-05 15:59:42,285][root][INFO] - Function Evals: 101
+[2024-04-05 15:59:42,285][root][INFO] - Best Code Overall: import numpy as np
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes."""
+    threshold = 0.7
+    c1, c2, c3, c4 = 0.4, 0.3, 0.2, 0.1
+    scores = {}
+    for node in unvisited_nodes:
+        all_distances = [distance_matrix[node][i] for i in unvisited_nodes if i != node]
+        average_distance_to_unvisited = np.mean(all_distances)
+        std_dev_distance_to_unvisited = np.std(all_distances)
+        score = c1 * distance_matrix[current_node][node] - c2 * average_distance_to_unvisited + c3 * std_dev_distance_to_unvisited - c4 * distance_matrix[destination_node][node]
+        scores[node] = score
+    next_node = min(scores, key=scores.get)
+    return next_node
+[2024-04-05 15:59:42,285][root][INFO] - Best Code Path Overall: problem_iter0_code0.py
+[2024-04-05 15:59:42,285][root][INFO] - Running validation script...: /home/khalid/MyWork/AI-research-project/ReEvo/LLM-as-HH/problems/tsp_constructive/eval.py
+[2024-04-05 16:01:15,439][root][INFO] - Validation script finished. Results are saved in best_code_overall_val_stdout.txt.
+[2024-04-05 16:01:15,440][root][INFO] - [*] Running ...
+[2024-04-05 16:01:15,440][root][INFO] - [*] Average for 20: 4.060709254207674
+[2024-04-05 16:01:15,440][root][INFO] - [*] Average for 50: 6.336348359341894
+[2024-04-05 16:01:15,440][root][INFO] - [*] Average for 100: 8.676698811061275
+[2024-04-05 16:01:15,440][root][INFO] - [*] Average for 200: 12.18215071505048

@@ -1,0 +1,31 @@
+```python
+import numpy as np
+
+def select_next_node_v2(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: np.ndarray) -> int:
+    """Select the next node to visit from the unvisited nodes with lookahead mechanism."""
+    
+    # Initialize the best_node and its corresponding score
+    best_node = None
+    best_score = np.inf
+    
+    # Iterate through all unvisited nodes
+    for node in unvisited_nodes:
+        # Look-ahead: Evaluate score by considering the next best move from the current node and the node under consideration
+        lookahead_scores = []
+        for next_node in unvisited_nodes - {node}:
+            # Use a simple scoring mechanism for the lookahead
+            lookahead_score = distance_matrix[current_node][node] + distance_matrix[node][next_node]
+            lookahead_scores.append(lookahead_score)
+        avg_lookahead_score = np.mean(lookahead_scores)
+        
+        # Combine the lookahead score with the direct score to the destination
+        score = distance_matrix[current_node][node] - avg_lookahead_score + distance_matrix[node][destination_node]
+        
+        # Update the best node if the current one has a better score
+        if score < best_score:
+            best_score = score
+            best_node = node
+            
+    return best_node
+```
+This improved function `select_next_node_v2` introduces a lookahead mechanism that estimates the score of a node by considering the potential next move from that node. This can help to reduce the number of local minima and improve the overall quality of the heuristic solution.
