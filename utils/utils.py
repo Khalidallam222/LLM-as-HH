@@ -5,6 +5,15 @@ import logging
 import concurrent.futures
 import time
 import re
+from dotenv import find_dotenv, load_dotenv
+
+dotenv_path = find_dotenv()
+load_dotenv(dotenv_path)
+
+# OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+# ZHIPU_AI_API_KEY = os.getenv('ZHIPU_AI_API_KEY')
+HYDRA_FULL_ERROR = os.getenv('HYDRA_FULL_ERROR')
+
 
 def init_client(cfg):
     global client
